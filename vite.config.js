@@ -7,7 +7,8 @@ export default defineConfig({
       input: {
         main: resolve(__dirname, 'index.html'),
         app: resolve(__dirname, 'app.html'),
-        nutri: resolve(__dirname, 'nutri.html')
+        nutri: resolve(__dirname, 'nutri.html'),
+        login: resolve(__dirname, 'login.html')
       }
     }
   }

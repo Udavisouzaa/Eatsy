@@ -1,5 +1,10 @@
 import './style.css'
 
+// --- Security Lock ---
+if (!localStorage.getItem('eatsy_auth_token')) {
+  window.location.href = '/login.html';
+}
+
 // Mock Data
 const meals = [
   { id: 1, title: 'Café da Manhã', icon: '☕', items: ['2 Ovos Mexidos', '1 Pão Integral', 'Café'], checked: false },

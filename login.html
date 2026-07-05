@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Eatsy - Login</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body class="landing-body">
+    
+    <main class="landing-container glass-panel">
+      <h1 class="landing-title">Bem-vindo de volta!</h1>
+      <p class="landing-subtitle">Acesse sua dieta e continue seu progresso diário.</p>
+      
+      <form id="loginForm" onsubmit="event.preventDefault(); doLogin();">
+        <div class="form-group">
+          <label>E-mail</label>
+          <input type="email" id="inputEmail" placeholder="seu@email.com" class="landing-input" required />
+        </div>
+        
+        <div class="form-group">
+          <label>Senha</label>
+          <input type="password" id="inputPass" placeholder="••••••••" class="landing-input" required />
+        </div>
+
+        <button type="submit" class="primary-btn" id="loginBtn">Entrar na Minha Dieta</button>
+      </form>
+
+      <p style="margin-top: 20px; font-size: 13px; color: var(--color-text-secondary);">
+        Ainda não tem conta? <a href="/" style="color: var(--color-mint); font-weight: bold;">Faça o teste grátis</a>
+      </p>
+    </main>
+
+    <script type="module" src="/login.js"></script>
+  </body>
+</html>

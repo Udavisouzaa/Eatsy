@@ -1,33 +1,65 @@
 import './style.css';
 
 let currentGoal = 'emagrecer';
+let selectedCalculator = ''; // 'proteina' or 'imc'
+
+window.chooseCalculator = function(type) {
+  selectedCalculator = type;
+  document.getElementById('step0').classList.remove('active-step');
+  document.getElementById('step0').classList.add('hidden-step');
+  
+  const stepId = type === 'proteina' ? 'step1-proteina' : 'step1-imc';
+  document.getElementById(stepId).classList.remove('hidden-step');
+  document.getElementById(stepId).classList.add('active-step');
+}
+
+window.goBackToStep0 = function() {
+  document.getElementById('step1-proteina').classList.add('hidden-step');
+  document.getElementById('step1-proteina').classList.remove('active-step');
+  document.getElementById('step1-imc').classList.add('hidden-step');
+  document.getElementById('step1-imc').classList.remove('active-step');
+  
+  document.getElementById('step0').classList.remove('hidden-step');
+  document.getElementById('step0').classList.add('active-step');
+}
 
 window.setGoal = function(goal) {
   currentGoal = goal;
   const buttons = document.querySelectorAll('.toggle-btn');
   buttons.forEach(btn => btn.classList.remove('active'));
-  
-  // Highlight the clicked one
   event.target.classList.add('active');
 }
 
-window.goToStep2 = function() {
-  const weight = document.getElementById('inputWeight').value;
-  const height = document.getElementById('inputHeight').value;
+window.goToCapture = function(type) {
+  let weight, height;
   
-  if(!weight || weight <= 0 || !height || height <= 0) {
-    alert("Por favor, preencha seu peso e altura corretamente para o cálculo.");
-    return;
+  if (type === 'proteina') {
+    weight = document.getElementById('inputWeightProt').value;
+    if(!weight || weight <= 0) {
+      alert("Por favor, digite seu peso atual para o cálculo.");
+      return;
+    }
+  } else {
+    weight = document.getElementById('inputWeightImc').value;
+    height = document.getElementById('inputHeightImc').value;
+    if(!weight || weight <= 0 || !height || height <= 0) {
+      alert("Por favor, preencha seu peso e altura corretamente.");
+      return;
+    }
   }
 
-  // Switch to step 2
-  document.getElementById('step1').classList.remove('active-step');
-  document.getElementById('step1').classList.add('hidden-step');
+  // Switch to step 2 (Capture)
+  const stepId = type === 'proteina' ? 'step1-proteina' : 'step1-imc';
+  document.getElementById(stepId).classList.remove('active-step');
+  document.getElementById(stepId).classList.add('hidden-step');
   
   document.getElementById('step2').classList.remove('hidden-step');
   document.getElementById('step2').classList.add('active-step');
 
   // Simulate loading
+  document.getElementById('calcBox').style.display = 'flex';
+  document.getElementById('leadCapture').classList.add('hidden-step');
+  
   setTimeout(() => {
     document.getElementById('calcBox').style.display = 'none';
     document.getElementById('leadCapture').classList.remove('hidden-step');
@@ -42,39 +74,46 @@ window.showResult = function() {
     return;
   }
 
-  // --- Calculate Protein ---
-  const weight = parseFloat(document.getElementById('inputWeight').value);
-  const heightCm = parseFloat(document.getElementById('inputHeight').value);
-  
-  const multiplier = currentGoal === 'emagrecer' ? 1.8 : 2.1;
-  const totalProtein = Math.round(weight * multiplier);
-  document.getElementById('resultValue').innerText = totalProtein;
-
-  // --- Calculate IMC ---
-  const heightM = heightCm / 100;
-  const imc = weight / (heightM * heightM);
-  document.getElementById('imcValue').innerText = imc.toFixed(1);
-
-  let imcText = "";
-  let arrowPosition = 0; // percentage from left
-  
-  // Categorias baseadas na OMS e mapeamento da posição da seta (0 a 100%)
-  if (imc < 18.5) {
-    imcText = "Abaixo do Ideal (Magreza)";
-    arrowPosition = 12.5; // Meio do primeiro bloco (0-25%)
-  } else if (imc >= 18.5 && imc < 24.9) {
-    imcText = "Peso Ideal (Normal)";
-    arrowPosition = 37.5; // Meio do segundo bloco (25-50%)
-  } else if (imc >= 25 && imc < 29.9) {
-    imcText = "Acima do Ideal (Sobrepeso)";
-    arrowPosition = 62.5; // Meio do terceiro bloco (50-75%)
+  // Show correct result blocks
+  if (selectedCalculator === 'proteina') {
+    document.getElementById('resultBlockProteina').style.display = 'flex';
+    document.getElementById('resultBlockImc').style.display = 'none';
+    
+    const weight = parseFloat(document.getElementById('inputWeightProt').value);
+    const multiplier = currentGoal === 'emagrecer' ? 1.8 : 2.1;
+    const totalProtein = Math.round(weight * multiplier);
+    document.getElementById('resultValue').innerText = totalProtein;
+    
   } else {
-    imcText = "Alerta (Obesidade)";
-    arrowPosition = 87.5; // Meio do quarto bloco (75-100%)
-  }
+    document.getElementById('resultBlockProteina').style.display = 'none';
+    document.getElementById('resultBlockImc').style.display = 'block';
+    
+    const weight = parseFloat(document.getElementById('inputWeightImc').value);
+    const heightCm = parseFloat(document.getElementById('inputHeightImc').value);
+    const heightM = heightCm / 100;
+    const imc = weight / (heightM * heightM);
+    document.getElementById('imcValue').innerText = imc.toFixed(1);
 
-  document.getElementById('imcLabel').innerText = imcText;
-  document.getElementById('imcArrow').style.left = `calc(${arrowPosition}% - 7px)`;
+    let imcText = "";
+    let arrowPosition = 0; 
+    
+    if (imc < 18.5) {
+      imcText = "Abaixo do Ideal (Magreza)";
+      arrowPosition = 12.5; 
+    } else if (imc >= 18.5 && imc < 24.9) {
+      imcText = "Peso Ideal (Normal)";
+      arrowPosition = 37.5; 
+    } else if (imc >= 25 && imc < 29.9) {
+      imcText = "Acima do Ideal (Sobrepeso)";
+      arrowPosition = 62.5; 
+    } else {
+      imcText = "Alerta (Obesidade)";
+      arrowPosition = 87.5; 
+    }
+
+    document.getElementById('imcLabel').innerText = imcText;
+    document.getElementById('imcArrow').style.left = `calc(${arrowPosition}% - 7px)`;
+  }
 
   // Switch to step 3
   document.getElementById('step2').classList.remove('active-step');

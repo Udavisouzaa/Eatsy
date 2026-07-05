@@ -7,20 +7,33 @@
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body class="landing-body">
-    <main class="landing-container glass-panel">
-      <!-- Etapa 1: A Promessa -->
-      <section id="step1" class="landing-step active-step">
-        <h1 class="landing-title">Proteína Ideal</h1>
-        <p class="landing-subtitle">Descubra a quantidade exata de proteína que seu corpo precisa hoje para atingir o seu objetivo máximo.</p>
+    
+    <!-- Top Right Login Button -->
+    <header style="width: 100%; display: flex; justify-content: flex-end; padding: 20px;">
+      <a href="/login.html" class="boost-btn" style="text-decoration: none;">Entrar</a>
+    </header>
+
+    <main class="landing-container glass-panel" style="margin-top: 20px;">
+      
+      <!-- Etapa 0: A Escolha -->
+      <section id="step0" class="landing-step active-step">
+        <h1 class="landing-title">Eatsy</h1>
+        <p class="landing-subtitle">O que você deseja descobrir sobre o seu corpo hoje?</p>
+        
+        <div style="display: flex; flex-direction: column; gap: 15px;">
+          <button class="primary-btn" onclick="chooseCalculator('proteina')" style="background: var(--color-mint); color: #1B5E20;">🥩 Calcular Proteína Ideal</button>
+          <button class="primary-btn" onclick="chooseCalculator('imc')" style="background: white; color: #333; border: 2px solid #ddd;">⚖️ Calcular Meu IMC</button>
+        </div>
+      </section>
+
+      <!-- Etapa 1: Proteína -->
+      <section id="step1-proteina" class="landing-step hidden-step">
+        <h2 class="landing-title" style="font-size:24px;">Proteína Ideal</h2>
+        <p class="landing-subtitle">Descubra a quantidade exata de proteína que seu corpo precisa.</p>
         
         <div class="form-group">
           <label>Qual seu peso atual? (kg)</label>
-          <input type="number" id="inputWeight" placeholder="Ex: 75" class="landing-input" />
-        </div>
-        
-        <div class="form-group">
-          <label>Qual sua altura? (cm)</label>
-          <input type="number" id="inputHeight" placeholder="Ex: 175" class="landing-input" />
+          <input type="number" id="inputWeightProt" placeholder="Ex: 75" class="landing-input" />
         </div>
         
         <div class="form-group">
@@ -31,7 +44,27 @@
           </div>
         </div>
 
-        <button class="primary-btn" onclick="goToStep2()">Calcular Minha Proteína e IMC</button>
+        <button class="primary-btn" onclick="goToCapture('proteina')">Calcular Minha Proteína</button>
+        <button class="boost-btn" style="margin-top: 10px; width: 100%;" onclick="goBackToStep0()">Voltar</button>
+      </section>
+
+      <!-- Etapa 1: IMC -->
+      <section id="step1-imc" class="landing-step hidden-step">
+        <h2 class="landing-title" style="font-size:24px;">Seu IMC</h2>
+        <p class="landing-subtitle">Descubra seu Índice de Massa Corporal.</p>
+        
+        <div class="form-group">
+          <label>Qual seu peso atual? (kg)</label>
+          <input type="number" id="inputWeightImc" placeholder="Ex: 75" class="landing-input" />
+        </div>
+        
+        <div class="form-group">
+          <label>Qual sua altura? (cm)</label>
+          <input type="number" id="inputHeightImc" placeholder="Ex: 175" class="landing-input" />
+        </div>
+
+        <button class="primary-btn" onclick="goToCapture('imc')">Calcular Meu IMC</button>
+        <button class="boost-btn" style="margin-top: 10px; width: 100%;" onclick="goBackToStep0()">Voltar</button>
       </section>
 
       <!-- Etapa 2: A Captura -->
@@ -42,7 +75,7 @@
         </div>
 
         <div id="leadCapture" class="hidden-step" style="margin-top: 20px;">
-          <h2 class="landing-title" style="font-size: 24px;">Cálculos Concluídos! 🎯</h2>
+          <h2 class="landing-title" style="font-size: 24px;">Cálculo Concluído! 🎯</h2>
           <p class="landing-subtitle">Para onde enviamos o seu resultado personalizado e a estratégia completa?</p>
           
           <div class="form-group">
@@ -50,24 +83,24 @@
             <input type="tel" id="inputPhone" placeholder="(00) 00000-0000" class="landing-input" />
           </div>
 
-          <button class="primary-btn pulse-btn" onclick="showResult()">Revelar Meus Resultados</button>
+          <button class="primary-btn pulse-btn" onclick="showResult()">Revelar Meu Resultado</button>
         </div>
       </section>
 
-      <!-- Etapa 3: A Recompensa / Upsell -->
+      <!-- Etapa 3: Resultados -->
       <section id="step3" class="landing-step hidden-step">
-        <h2 class="landing-title">Seu Dossiê Metabólico 🧬</h2>
+        <h2 class="landing-title">Seu Dossiê 🧬</h2>
         
-        <!-- Proteína -->
-        <div class="result-box">
+        <!-- Bloco de Proteína (Será oculto se for IMC) -->
+        <div class="result-box" id="resultBlockProteina">
           <h3 style="font-size: 16px; margin-bottom: 10px; color: var(--color-text-primary);">Alvo Diário de Proteína</h3>
           <span class="result-number" id="resultValue">--</span>
           <span class="result-label">gramas por dia</span>
         </div>
 
-        <!-- IMC -->
-        <div class="result-box" style="margin-top: 15px;">
-          <h3 style="font-size: 16px; margin-bottom: 10px; color: var(--color-text-primary);">Seu IMC (Índice de Massa Corporal)</h3>
+        <!-- Bloco de IMC (Será oculto se for Proteína) -->
+        <div class="result-box" id="resultBlockImc" style="margin-top: 15px;">
+          <h3 style="font-size: 16px; margin-bottom: 10px; color: var(--color-text-primary);">Seu Índice de Massa Corporal</h3>
           
           <div style="font-size: 28px; font-weight: 800; color: #333;" id="imcValue">--</div>
           <div style="font-size: 14px; font-weight: 600; margin-bottom: 20px;" id="imcLabel">--</div>
@@ -90,9 +123,9 @@
           </div>
         </div>
         
-        <p class="landing-subtitle" style="margin-top:20px;">Melhorar esse quadro não precisa ser um sacrifício. Experimente nosso aplicativo que transformou a dieta em um jogo viciante.</p>
+        <p class="landing-subtitle" style="margin-top:20px;">Gostou do resultado? Para acessar sua área completa com metas diárias, faça o login.</p>
 
-        <a href="/app.html" class="primary-btn" style="text-decoration:none; display:inline-block; text-align:center;">Entrar no Eatsy App</a>
+        <a href="/login.html" class="primary-btn" style="text-decoration:none; display:inline-block; text-align:center;">Criar Conta / Fazer Login</a>
       </section>
 
     </main>
