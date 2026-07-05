@@ -647,3 +647,47 @@ body.celebration-mode .progress-bar {
   color: var(--color-text-secondary);
   text-transform: uppercase;
 }
+
+/* Choice Grid - Square Buttons */
+.choice-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.choice-card {
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  padding: 30px 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  aspect-ratio: 1 / 1;
+}
+
+.choice-card:hover {
+  background: white;
+  border-color: var(--color-mint);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.choice-icon {
+  font-size: 40px;
+  margin-bottom: 15px;
+  transition: transform 0.3s ease;
+}
+
+.choice-card:hover .choice-icon {
+  transform: scale(1.1);
+}
+
+.choice-text {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}

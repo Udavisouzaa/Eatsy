@@ -1,5 +1,13 @@
 import './style.css';
 
+// --- Security Lock ---
+const token = localStorage.getItem('eatsy_auth_token');
+const role = localStorage.getItem('eatsy_role');
+
+if (!token || role !== 'nutri') {
+  window.location.href = '/login.html';
+}
+
 // Mock Patient Data
 const patients = [
   {

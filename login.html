@@ -13,6 +13,15 @@
       <p class="landing-subtitle">Acesse sua dieta e continue seu progresso diário.</p>
       
       <form id="loginForm" onsubmit="event.preventDefault(); doLogin();">
+        
+        <div class="form-group">
+          <label>Como você deseja acessar?</label>
+          <div class="toggle-group">
+            <button type="button" class="toggle-btn active" id="btnRolePaciente" onclick="setRole('paciente')">👨‍🦱 Paciente</button>
+            <button type="button" class="toggle-btn" id="btnRoleNutri" onclick="setRole('nutri')">🩺 Nutricionista</button>
+          </div>
+        </div>
+
         <div class="form-group">
           <label>E-mail</label>
           <input type="email" id="inputEmail" placeholder="seu@email.com" class="landing-input" required />

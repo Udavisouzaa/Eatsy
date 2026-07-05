@@ -9,20 +9,24 @@
   <body class="landing-body">
     
     <!-- Top Right Login Button -->
-    <header style="width: 100%; display: flex; justify-content: flex-end; padding: 20px;">
-      <a href="/login.html" class="boost-btn" style="text-decoration: none;">Entrar</a>
-    </header>
+    <a href="/login.html" class="boost-btn" style="position: absolute; top: 20px; right: 20px; text-decoration: none; z-index: 10;">Entrar</a>
 
-    <main class="landing-container glass-panel" style="margin-top: 20px;">
+    <main class="landing-container glass-panel" style="margin-top: 60px;">
       
       <!-- Etapa 0: A Escolha -->
       <section id="step0" class="landing-step active-step">
         <h1 class="landing-title">Eatsy</h1>
         <p class="landing-subtitle">O que você deseja descobrir sobre o seu corpo hoje?</p>
         
-        <div style="display: flex; flex-direction: column; gap: 15px;">
-          <button class="primary-btn" onclick="chooseCalculator('proteina')" style="background: var(--color-mint); color: #1B5E20;">🥩 Calcular Proteína Ideal</button>
-          <button class="primary-btn" onclick="chooseCalculator('imc')" style="background: white; color: #333; border: 2px solid #ddd;">⚖️ Calcular Meu IMC</button>
+        <div class="choice-grid">
+          <div class="choice-card" onclick="chooseCalculator('proteina')">
+            <span class="choice-icon">🥩</span>
+            <span class="choice-text">Proteína Ideal</span>
+          </div>
+          <div class="choice-card" onclick="chooseCalculator('imc')">
+            <span class="choice-icon">⚖️</span>
+            <span class="choice-text">Calcular IMC</span>
+          </div>
         </div>
       </section>
 
