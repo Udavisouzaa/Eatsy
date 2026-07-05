@@ -173,3 +173,47 @@ document.addEventListener('DOMContentLoaded', () => {
   setupIntegrationListener();
   setTimeout(() => updateOverallProgress(), 100);
 });
+
+// --- Dark Mode Logic ---
+const savedTheme = localStorage.getItem('eatsy_theme');
+if (savedTheme === 'dark') {
+  document.body.classList.add('dark-mode');
+  document.getElementById('themeToggle').innerText = '☀️';
+}
+
+window.toggleTheme = function() {
+  document.body.classList.toggle('dark-mode');
+  const isDark = document.body.classList.contains('dark-mode');
+  
+  if (isDark) {
+    localStorage.setItem('eatsy_theme', 'dark');
+    document.getElementById('themeToggle').innerText = '☀️';
+  } else {
+    localStorage.setItem('eatsy_theme', 'light');
+    document.getElementById('themeToggle').innerText = '🌙';
+  }
+}
+
+// --- Chest Modal Logic ---
+let hasShownChest = false;
+
+function checkChestUnlock() {
+  const allMealsChecked = meals.every(m => m.checked);
+  if (allMealsChecked && !hasShownChest) {
+    hasShownChest = true;
+    setTimeout(() => {
+      document.getElementById('chestModal').classList.add('active');
+    }, 1000);
+  }
+}
+
+window.closeChest = function() {
+  document.getElementById('chestModal').classList.remove('active');
+}
+
+// Override checkMeal
+const originalCheckMeal = window.checkMeal;
+window.checkMeal = function(id) {
+  originalCheckMeal(id); 
+  checkChestUnlock();
+}

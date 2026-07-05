@@ -12,6 +12,14 @@
   --glass-shadow: rgba(0, 0, 0, 0.05);
 }
 
+body.dark-mode {
+  --color-text-primary: #FFFFFF;
+  --color-text-secondary: #AAAAAA;
+  --glass-bg: rgba(20, 20, 20, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-shadow: rgba(0, 0, 0, 0.3);
+  background: linear-gradient(135deg, #111111 0%, #222222 50%, #1a2a24 100%);
+}
 * {
   margin: 0;
   padding: 0;
@@ -690,4 +698,97 @@ body.celebration-mode .progress-bar {
   font-size: 14px;
   font-weight: 700;
   color: var(--color-text-primary);
+}
+
+/* Modal Baú Secreto */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.chest-modal {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  padding: 40px;
+  text-align: center;
+  max-width: 90%;
+  width: 350px;
+  transform: scale(0.8);
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.modal-overlay.active .chest-modal {
+  transform: scale(1);
+}
+
+.chest-icon {
+  font-size: 60px;
+  animation: shake 1.5s infinite;
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
+@keyframes shake {
+  0%, 100% { transform: rotate(0); }
+  25% { transform: rotate(-10deg); }
+  50% { transform: rotate(10deg); }
+  75% { transform: rotate(-10deg); }
+}
+
+/* iOS Toggle Switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 28px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 28px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: var(--color-success);
+}
+
+input:checked + .slider:before {
+  transform: translateX(22px);
 }

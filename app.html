@@ -18,12 +18,33 @@
 
     <main class="app-container" id="appMain">
       <!-- Header with Streak -->
-      <div class="header-row">
-        <div class="streak-badge">
-          <span class="streak-icon">🔥</span>
-          <span class="streak-text">3 Dias Seguidos</span>
+      <header class="app-header">
+      <div style="display: flex; align-items: center; justify-content: space-between;">
+        <div>
+          <h1>Olá, Paciente! 👋</h1>
+          <p>Seu plano está <strong>ativo</strong>.</p>
         </div>
+        <button id="themeToggle" class="boost-btn" style="border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-size: 20px;" onclick="toggleTheme()">🌙</button>
       </div>
+      
+      <!-- Water Status Ring -->
+      <div class="water-status">
+        <svg class="progress-ring" width="60" height="60">
+          <circle class="progress-ring__circle" stroke="var(--color-mint)" stroke-width="4" fill="transparent" r="26" cx="30" cy="30" />
+        </svg>
+        <span class="water-percentage">0%</span>
+      </div>
+    </header>
+
+    <!-- Chest Modal HTML -->
+    <div class="modal-overlay" id="chestModal">
+      <div class="chest-modal">
+        <div class="chest-icon">🎁</div>
+        <h2 class="landing-title" style="font-size: 24px;">Baú Desbloqueado!</h2>
+        <p class="landing-subtitle">Parabéns por completar seu 7º dia! Você acabou de ganhar acesso à receita secreta do seu nutricionista: <strong>Pizza Fit de Frigideira</strong>.</p>
+        <button class="primary-btn pulse-btn" onclick="closeChest()">Resgatar Receita</button>
+      </div>
+    </div>
 
       <!-- Progress Ring -->
       <div class="progress-section">

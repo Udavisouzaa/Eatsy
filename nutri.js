@@ -80,3 +80,13 @@ window.sendBoost = function(patientId) {
 }
 
 document.addEventListener('DOMContentLoaded', renderTable);
+
+// --- Auto Pilot Logic ---
+window.toggleAutoPilot = function() {
+  const toggle = document.getElementById('autoPilotToggle');
+  if (toggle.checked) {
+    alert("🤖 Robô Anti-Churn ativado com sucesso! A partir de agora, o Eatsy cuidará da motivação dos seus pacientes enquanto você dorme.");
+  } else {
+    alert("Robô desativado. O acompanhamento voltou para o modo manual.");
+  }
+}

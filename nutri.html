@@ -7,12 +7,25 @@
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body class="nutri-body">
-    <main class="dashboard-container">
-      <div class="dash-header">
-        <h1 class="dash-title">Painel de Pacientes</h1>
-        <p style="color: var(--color-text-secondary)">Hoje, 5 de Julho</p>
+    <main class="app-container" style="max-width: 800px; padding: 40px 20px;">
+      <header style="margin-bottom: 30px;">
+        <h1 class="landing-title" style="text-align: left;">Painel do Nutricionista</h1>
+        <p class="landing-subtitle" style="text-align: left; margin-bottom: 0;">Acompanhamento em Tempo Real</p>
+      </header>
+
+      <!-- Automações Panel -->
+      <div class="glass-panel" style="display: flex; align-items: center; justify-content: space-between; padding: 20px; margin-bottom: 20px;">
+        <div>
+          <h3 style="font-size: 16px; margin-bottom: 4px;">Piloto Automático Anti-Churn</h3>
+          <p style="font-size: 13px; color: var(--color-text-secondary);">Envia mensagens automáticas de incentivo para pacientes inativos há mais de 2 dias.</p>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="autoPilotToggle" onchange="toggleAutoPilot()">
+          <span class="slider"></span>
+        </label>
       </div>
 
+      <div class="glass-panel" style="padding: 0; overflow: hidden;">
       <table class="patients-table">
         <thead>
           <tr>
