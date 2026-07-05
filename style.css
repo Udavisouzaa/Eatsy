@@ -1,0 +1,222 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --color-mint: #A8E6CF;
+  --color-orange: #FFD3B6;
+  --color-success: #66BB6A;
+  --color-text-primary: #333333;
+  --color-text-secondary: #777777;
+  --glass-bg: rgba(255, 255, 255, 0.4);
+  --glass-border: rgba(255, 255, 255, 0.6);
+  --glass-shadow: rgba(0, 0, 0, 0.05);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background: linear-gradient(135deg, var(--color-mint) 0%, #ffffff 50%, var(--color-orange) 100%);
+  background-attachment: fixed;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  color: var(--color-text-primary);
+}
+
+.app-container {
+  width: 100%;
+  max-width: 480px; /* Mobile focused max width */
+  padding: 40px 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- Progress Ring --- */
+.progress-section {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+.progress-container {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.progress-ring-svg {
+  transform: rotate(-90deg);
+}
+
+.progress-ring__circle {
+  transition: stroke-dashoffset 0.8s ease-in-out;
+}
+
+.bg-circle {
+  stroke: rgba(255, 255, 255, 0.5);
+}
+
+.progress-bar {
+  stroke: var(--color-mint);
+  stroke-linecap: round;
+  /* Dash array and offset will be set in JS */
+}
+
+.progress-text-wrapper {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.progress-text {
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--color-text-primary);
+}
+
+.progress-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  margin-top: 4px;
+}
+
+/* --- Timeline --- */
+.timeline-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* --- Glass Meal Card --- */
+.meal-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  padding: 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  box-shadow: 0 8px 32px var(--glass-shadow);
+  transition: all 0.3s ease;
+}
+
+.meal-card.checked {
+  background: rgba(255, 255, 255, 0.6);
+  border-color: rgba(102, 187, 106, 0.3);
+}
+
+.icon-box {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  transition: all 0.3s ease;
+}
+
+.meal-card.checked .icon-box {
+  background: var(--color-success);
+}
+
+.card-content {
+  flex: 1;
+}
+
+.meal-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.meal-items {
+  list-style: none;
+}
+
+.meal-item {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.meal-item::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-text-secondary);
+}
+
+.check-btn {
+  background: white;
+  color: var(--color-mint);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.check-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+}
+
+.check-btn:active {
+  transform: translateY(0);
+}
+
+.meal-card.checked .check-btn {
+  background: var(--color-success);
+  color: white;
+  box-shadow: 0 4px 12px rgba(102, 187, 106, 0.3);
+}
+
+/* Animations */
+@keyframes popIn {
+  0% { transform: scale(0.9); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes celebrate {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1) rotate(5deg); }
+  100% { transform: scale(1); }
+}
+
+.animate-pop {
+  animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.animate-celebrate {
+  animation: celebrate 0.5s ease-in-out forwards;
+}
