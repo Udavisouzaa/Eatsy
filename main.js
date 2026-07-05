@@ -69,7 +69,7 @@ function renderTimeline() {
   meals.forEach((meal, index) => {
     const card = document.createElement('div');
     card.className = `meal-card animate-pop ${meal.checked ? 'checked' : ''}`;
-    card.style.animationDelay = `${index * 0.1s}`;
+    card.style.animationDelay = `${index * 0.1}s`;
     
     const itemsHtml = meal.items.map(item => `<li class="meal-item">${item}</li>`).join('');
     card.innerHTML = `
