@@ -1,31 +1,16 @@
 import './style.css'
 
-// Mock Data for MVP
+// Mock Data
 const meals = [
-  {
-    id: 1,
-    title: 'Café da Manhã',
-    icon: '☕',
-    items: ['2 Ovos Mexidos', '1 Fatia de Pão Integral', 'Café Preto sem açúcar'],
-    checked: false
-  },
-  {
-    id: 2,
-    title: 'Almoço',
-    icon: '🥗',
-    items: ['150g de Frango Grelhado', '100g de Batata Doce', 'Salada de folhas'],
-    checked: false
-  },
-  {
-    id: 3,
-    title: 'Jantar',
-    icon: '🌙',
-    items: ['Sopa de Legumes', '1 Maçã'],
-    checked: false
-  }
+  { id: 1, title: 'Café da Manhã', icon: '☕', items: ['2 Ovos Mexidos', '1 Pão Integral', 'Café'], checked: false },
+  { id: 2, title: 'Almoço', icon: '🥗', items: ['150g Frango', '100g Batata Doce', 'Salada'], checked: false },
+  { id: 3, title: 'Jantar', icon: '🌙', items: ['Sopa de Legumes', '1 Maçã'], checked: false }
 ];
 
-// Progress Ring Logic
+let waterGlasses = 0;
+const totalGlasses = 8;
+
+// --- Progress Logic ---
 const circle = document.querySelector('.progress-bar');
 const radius = circle.r.baseVal.value;
 const circumference = radius * 2 * Math.PI;
@@ -37,14 +22,13 @@ function setProgress(percent) {
   const offset = circumference - (percent / 100) * circumference;
   circle.style.strokeDashoffset = offset;
   
-  // Animate the text counting up
   const textElement = document.getElementById('progressText');
   let currentVal = parseInt(textElement.innerText) || 0;
   const targetVal = Math.round(percent);
   
   if (currentVal !== targetVal) {
-    const duration = 800; // ms
-    const steps = 20;
+    const duration = 600;
+    const steps = 15;
     const stepTime = Math.abs(Math.floor(duration / steps));
     let step = 0;
     
@@ -64,10 +48,20 @@ function updateOverallProgress() {
   const total = meals.length;
   const completed = meals.filter(m => m.checked).length;
   const percentage = (completed / total) * 100;
+  
   setProgress(percentage);
+
+  // Gamification: 100% Celebration
+  if(percentage === 100) {
+    document.body.classList.add('celebration-mode');
+    document.getElementById('progressLabel').innerText = 'Meta Atingida! 🎉';
+  } else {
+    document.body.classList.remove('celebration-mode');
+    document.getElementById('progressLabel').innerText = 'Concluído';
+  }
 }
 
-// Render Timeline
+// --- Timeline Rendering ---
 function renderTimeline() {
   const container = document.getElementById('mealTimeline');
   container.innerHTML = '';
@@ -75,10 +69,9 @@ function renderTimeline() {
   meals.forEach((meal, index) => {
     const card = document.createElement('div');
     card.className = `meal-card animate-pop ${meal.checked ? 'checked' : ''}`;
-    card.style.animationDelay = `${index * 0.15}s`;
+    card.style.animationDelay = `${index * 0.1s}`;
     
     const itemsHtml = meal.items.map(item => `<li class="meal-item">${item}</li>`).join('');
-    
     card.innerHTML = `
       <div class="icon-box">${meal.icon}</div>
       <div class="card-content">
@@ -89,11 +82,9 @@ function renderTimeline() {
         ${meal.checked ? 'Feito ✓' : 'Check'}
       </button>
     `;
-    
     container.appendChild(card);
   });
 
-  // Attach event listeners to buttons
   document.querySelectorAll('.check-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
       const id = parseInt(e.target.getAttribute('data-id'));
@@ -105,30 +96,72 @@ function renderTimeline() {
 function toggleMealStatus(id, buttonElement) {
   const meal = meals.find(m => m.id === id);
   if (meal) {
-    meal.checked = !meal.checked; // Toggle state
-    
-    // Animate Card
+    meal.checked = !meal.checked;
     const card = buttonElement.closest('.meal-card');
+    
     if (meal.checked) {
       card.classList.add('checked');
       buttonElement.innerText = 'Feito ✓';
-      // Add celebrate animation to icon
       const icon = card.querySelector('.icon-box');
       icon.classList.remove('animate-celebrate');
-      void icon.offsetWidth; // trigger reflow
+      void icon.offsetWidth;
       icon.classList.add('animate-celebrate');
     } else {
       card.classList.remove('checked');
       buttonElement.innerText = 'Check';
     }
-    
     updateOverallProgress();
   }
+}
+
+// --- Water Tracker Rendering ---
+function renderWaterTracker() {
+  const container = document.getElementById('waterTracker');
+  container.innerHTML = '';
+  for(let i=0; i<totalGlasses; i++) {
+    const glass = document.createElement('div');
+    glass.className = `water-glass ${i < waterGlasses ? 'filled' : ''}`;
+    glass.addEventListener('click', () => {
+      if (i === waterGlasses) {
+        waterGlasses++;
+        renderWaterTracker();
+      } else if (i === waterGlasses - 1) {
+        waterGlasses--;
+        renderWaterTracker();
+      }
+    });
+    container.appendChild(glass);
+  }
+}
+
+// --- Toast / Integration Listener ---
+function setupIntegrationListener() {
+  // Clear any old boost flag
+  localStorage.removeItem('nutriBoost');
+  
+  // Listen for storage changes from the Nutri dashboard
+  window.addEventListener('storage', (e) => {
+    if (e.key === 'nutriBoost') {
+      showToast();
+    }
+  });
+}
+
+function showToast() {
+  const toast = document.getElementById('toast');
+  toast.classList.add('show');
+  
+  // Remove toast after 4 seconds
+  setTimeout(() => {
+    toast.classList.remove('show');
+    localStorage.removeItem('nutriBoost');
+  }, 4000);
 }
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
   renderTimeline();
-  // Initial progress is 0, animated to 0
+  renderWaterTracker();
+  setupIntegrationListener();
   setTimeout(() => updateOverallProgress(), 100);
 });

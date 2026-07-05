@@ -6,6 +6,7 @@
   --color-success: #66BB6A;
   --color-text-primary: #333333;
   --color-text-secondary: #777777;
+  --color-blue: #64B5F6;
   --glass-bg: rgba(255, 255, 255, 0.4);
   --glass-border: rgba(255, 255, 255, 0.6);
   --glass-shadow: rgba(0, 0, 0, 0.05);
@@ -26,21 +27,95 @@ body {
   display: flex;
   justify-content: center;
   color: var(--color-text-primary);
+  transition: background 1s ease;
+}
+
+/* 100% Celebration Background */
+body.celebration-mode {
+  background: linear-gradient(135deg, #A8E6CF 0%, #E8F5E9 50%, #66BB6A 100%);
 }
 
 .app-container {
   width: 100%;
-  max-width: 480px; /* Mobile focused max width */
-  padding: 40px 24px;
+  max-width: 480px; 
+  padding: 30px 24px;
   display: flex;
   flex-direction: column;
+}
+
+/* --- Gamification: Toast Notification --- */
+.toast {
+  position: fixed;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 400px;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+  transition: top 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  z-index: 1000;
+}
+
+.toast.show {
+  top: 30px;
+}
+
+.toast-icon {
+  font-size: 32px;
+}
+
+.toast-content h4 {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  margin-bottom: 4px;
+}
+
+.toast-content p {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+/* --- Gamification: Streak Badge --- */
+.header-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.streak-badge {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 8px 16px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 12px var(--glass-shadow);
+  border: 1px solid var(--glass-border);
+}
+
+.streak-text {
+  font-size: 14px;
+  font-weight: 600;
+  color: #E65100;
 }
 
 /* --- Progress Ring --- */
 .progress-section {
   display: flex;
   justify-content: center;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
 }
 
 .progress-container {
@@ -67,7 +142,10 @@ body {
 .progress-bar {
   stroke: var(--color-mint);
   stroke-linecap: round;
-  /* Dash array and offset will be set in JS */
+}
+
+body.celebration-mode .progress-bar {
+  stroke: var(--color-success);
 }
 
 .progress-text-wrapper {
@@ -92,7 +170,66 @@ body {
   margin-top: 4px;
 }
 
-/* --- Timeline --- */
+/* --- Gamification: Water Tracker --- */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  padding: 20px;
+  box-shadow: 0 8px 32px var(--glass-shadow);
+}
+
+.water-section {
+  margin-top: 30px;
+}
+
+.water-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.water-tracker {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.water-glass {
+  width: 32px;
+  height: 40px;
+  border-radius: 4px 4px 12px 12px;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  background: rgba(255,255,255,0.2);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
+}
+
+.water-glass.filled {
+  border-color: var(--color-blue);
+}
+
+.water-glass.filled::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 100%;
+  background: var(--color-blue);
+  opacity: 0.8;
+  animation: fillUp 0.4s ease-out forwards;
+}
+
+@keyframes fillUp {
+  0% { height: 0; }
+  100% { height: 100%; }
+}
+
+/* --- Timeline & Meal Cards --- */
 .timeline-title {
   font-size: 24px;
   font-weight: 700;
@@ -105,7 +242,6 @@ body {
   gap: 20px;
 }
 
-/* --- Glass Meal Card --- */
 .meal-card {
   background: var(--glass-bg);
   backdrop-filter: blur(20px);
@@ -191,10 +327,6 @@ body {
   box-shadow: 0 6px 16px rgba(0,0,0,0.08);
 }
 
-.check-btn:active {
-  transform: translateY(0);
-}
-
 .meal-card.checked .check-btn {
   background: var(--color-success);
   color: white;
@@ -206,17 +338,95 @@ body {
   0% { transform: scale(0.9); opacity: 0; }
   100% { transform: scale(1); opacity: 1; }
 }
-
 @keyframes celebrate {
   0% { transform: scale(1); }
-  50% { transform: scale(1.1) rotate(5deg); }
+  50% { transform: scale(1.2) rotate(15deg); }
   100% { transform: scale(1); }
 }
+.animate-pop { animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+.animate-celebrate { animation: celebrate 0.5s ease-in-out forwards; }
 
-.animate-pop {
-  animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+
+/* =========================================
+   NUTRITIONIST DASHBOARD (nutri.html)
+   ========================================= */
+
+.nutri-body {
+  background: #f4f7f6;
+  max-width: 100%;
+  padding: 40px;
+  display: block;
 }
 
-.animate-celebrate {
-  animation: celebrate 0.5s ease-in-out forwards;
+.dashboard-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 24px;
+  padding: 40px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+}
+
+.dash-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.dash-title {
+  font-size: 28px;
+  color: var(--color-text-primary);
+}
+
+.patients-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.patients-table th {
+  text-align: left;
+  padding: 16px;
+  color: var(--color-text-secondary);
+  border-bottom: 2px solid #eee;
+}
+
+.patients-table td {
+  padding: 16px;
+  border-bottom: 1px solid #eee;
+  vertical-align: middle;
+}
+
+.patient-name {
+  font-weight: 600;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.status-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.status-green { background: var(--color-success); box-shadow: 0 0 10px rgba(102,187,106,0.5); }
+.status-yellow { background: #FFCA28; }
+.status-red { background: #EF5350; }
+
+.boost-btn {
+  background: #E3F2FD;
+  color: #1976D2;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.boost-btn:hover {
+  background: #1976D2;
+  color: white;
 }

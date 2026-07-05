@@ -7,7 +7,24 @@
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
-    <main class="app-container">
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+      <div class="toast-icon">✨</div>
+      <div class="toast-content">
+        <h4>Seu Nutricionista diz:</h4>
+        <p id="toastMessage">Excelente trabalho hoje! Continue firme!</p>
+      </div>
+    </div>
+
+    <main class="app-container" id="appMain">
+      <!-- Header with Streak -->
+      <div class="header-row">
+        <div class="streak-badge">
+          <span class="streak-icon">🔥</span>
+          <span class="streak-text">3 Dias Seguidos</span>
+        </div>
+      </div>
+
       <!-- Progress Ring -->
       <div class="progress-section">
         <div class="progress-container">
@@ -17,7 +34,7 @@
           </svg>
           <div class="progress-text-wrapper">
             <span class="progress-text" id="progressText">0%</span>
-            <span class="progress-label">Concluído</span>
+            <span class="progress-label" id="progressLabel">Concluído</span>
           </div>
         </div>
       </div>
@@ -26,6 +43,14 @@
 
       <div class="timeline" id="mealTimeline">
         <!-- Cards will be injected via JS -->
+      </div>
+
+      <!-- Water Tracker -->
+      <div class="water-section glass-panel">
+        <h2 class="water-title">Hidratação (Copos de 250ml)</h2>
+        <div class="water-tracker" id="waterTracker">
+          <!-- Glasses injected via JS -->
+        </div>
       </div>
     </main>
     <script type="module" src="/main.js"></script>

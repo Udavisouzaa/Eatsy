@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Eatsy Pro - Painel do Nutricionista</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body class="nutri-body">
+    <main class="dashboard-container">
+      <div class="dash-header">
+        <h1 class="dash-title">Painel de Pacientes</h1>
+        <p style="color: var(--color-text-secondary)">Hoje, 5 de Julho</p>
+      </div>
+
+      <table class="patients-table">
+        <thead>
+          <tr>
+            <th>Paciente</th>
+            <th>Adesão Hoje</th>
+            <th>Última Refeição</th>
+            <th>Ação</th>
+          </tr>
+        </thead>
+        <tbody id="patientsTableBody">
+          <!-- Patients injected via JS -->
+        </tbody>
+      </table>
+    </main>
+    <script type="module" src="/nutri.js"></script>
+  </body>
+</html>
