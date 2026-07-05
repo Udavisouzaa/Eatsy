@@ -123,11 +123,11 @@ function renderWaterTracker() {
     glass.className = `water-glass ${i < waterGlasses ? 'filled' : ''}`;
     glass.addEventListener('click', () => {
       if (i === waterGlasses) {
+        glass.classList.add('filled');
         waterGlasses++;
-        renderWaterTracker();
       } else if (i === waterGlasses - 1) {
+        glass.classList.remove('filled');
         waterGlasses--;
-        renderWaterTracker();
       }
     });
     container.appendChild(glass);
