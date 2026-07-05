@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Eatsy - A sua dieta, sem culpa!</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+      <div class="toast-icon">✨</div>
+      <div class="toast-content">
+        <h4>Seu Nutricionista diz:</h4>
+        <p id="toastMessage">Excelente trabalho hoje! Continue firme!</p>
+      </div>
+    </div>
+
+    <main class="app-container" id="appMain">
+      <!-- Header with Streak -->
+      <div class="header-row">
+        <div class="streak-badge">
+          <span class="streak-icon">🔥</span>
+          <span class="streak-text">3 Dias Seguidos</span>
+        </div>
+      </div>
+
+      <!-- Progress Ring -->
+      <div class="progress-section">
+        <div class="progress-container">
+          <svg class="progress-ring-svg" width="160" height="160">
+            <circle class="progress-ring__circle bg-circle" stroke-width="12" fill="transparent" r="70" cx="80" cy="80"/>
+            <circle class="progress-ring__circle progress-bar" stroke-width="12" fill="transparent" r="70" cx="80" cy="80"/>
+          </svg>
+          <div class="progress-text-wrapper">
+            <span class="progress-text" id="progressText">0%</span>
+            <span class="progress-label" id="progressLabel">Concluído</span>
+          </div>
+        </div>
+      </div>
+
+      <h1 class="timeline-title">Suas Refeições de Hoje</h1>
+
+      <div class="timeline" id="mealTimeline">
+        <!-- Cards will be injected via JS -->
+      </div>
+
+      <!-- Water Tracker -->
+      <div class="water-section glass-panel">
+        <h2 class="water-title">Hidratação (Copos de 250ml)</h2>
+        <div class="water-tracker" id="waterTracker">
+          <!-- Glasses injected via JS -->
+        </div>
+      </div>
+    </main>
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>
