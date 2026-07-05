@@ -127,12 +127,12 @@ window.shareViral = function() {
   let message = "";
   if (selectedCalculator === 'imc') {
     const imc = document.getElementById('imcValue').innerText;
-    message = `Fiz meu teste metabólico no Eatsy e meu IMC deu ${imc}! Duvido você bater minha pontuação. Faz o teste aqui: eatsy-d.vercel.app`;
+    message = `Fiz meu teste metabólico no Eatsy e meu IMC deu ${imc}! Duvido você bater minha pontuação. Faz o teste aqui: https://eatsy-d.vercel.app/`;
   } else {
     const prot = document.getElementById('resultValue').innerText;
-    message = `Minha meta diária para atingir o shape é comer ${prot}g de proteína! Descubra a sua aqui: eatsy-d.vercel.app`;
+    message = `Minha meta diária para atingir o shape é comer ${prot}g de proteína! Descubra a sua aqui: https://eatsy-d.vercel.app/`;
   }
   
   const encodedUrl = encodeURIComponent(message);
-  window.open(`https://wa.me/?text=${encodedUrl}`, '_blank');
+  window.location.href = `https://wa.me/?text=${encodedUrl}`;
 }
