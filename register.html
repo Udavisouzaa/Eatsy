@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Eatsy - Criar Conta</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body class="landing-body">
+    
+    <!-- Top Right Login Button -->
+    <a href="/login.html" class="boost-btn" style="position: absolute; top: 20px; right: 20px; text-decoration: none; z-index: 10;">Entrar</a>
+
+    <main class="landing-container glass-panel" style="margin-top: 60px;">
+      
+      <!-- Passo 1: Simulação -->
+      <section id="step1" class="landing-step active-step">
+        <h1 class="landing-title">Sua Jornada</h1>
+        <p class="landing-subtitle">Vamos mapear exatamente o seu objetivo.</p>
+        
+        <div class="form-group">
+          <label>Qual seu peso atual? (kg)</label>
+          <input type="number" id="inputCurrentWeight" placeholder="Ex: 85" class="landing-input" />
+        </div>
+
+        <div class="form-group">
+          <label>Qual o seu peso alvo? (kg)</label>
+          <input type="number" id="inputTargetWeight" placeholder="Ex: 75" class="landing-input" />
+        </div>
+
+        <button class="primary-btn" onclick="generatePrediction()">Gerar Previsão Inteligente</button>
+      </section>
+
+      <!-- Passo 2: O Futuro (Cadastro) -->
+      <section id="step2" class="landing-step hidden-step">
+        <div class="result-box" style="margin-top: 0;">
+          <h3 style="font-size: 16px; margin-bottom: 10px; color: var(--color-text-primary);">Você atingirá seu objetivo em</h3>
+          <span class="result-number" id="predictionWeeks">--</span>
+          <span class="result-label">semanas</span>
+        </div>
+        
+        <p class="landing-subtitle" style="margin-top: 10px; font-weight: 600; color: var(--color-mint); font-size: 16px;">
+          Com o método Eatsy, chegar aos <span id="targetText"></span>kg nunca foi tão perto.
+        </p>
+        
+        <div class="form-group">
+          <label>Nome Completo</label>
+          <input type="text" id="inputName" placeholder="Como gosta de ser chamado?" class="landing-input" />
+        </div>
+
+        <div class="form-group">
+          <label>E-mail</label>
+          <input type="email" id="inputEmail" placeholder="seu@email.com" class="landing-input" />
+        </div>
+
+        <button class="primary-btn pulse-btn" id="registerBtn" onclick="doRegister()">Criar Conta e Começar</button>
+      </section>
+
+    </main>
+
+    <script type="module" src="/register.js"></script>
+  </body>
+</html>

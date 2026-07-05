@@ -8,7 +8,8 @@ export default defineConfig({
         main: resolve(__dirname, 'index.html'),
         app: resolve(__dirname, 'app.html'),
         nutri: resolve(__dirname, 'nutri.html'),
-        login: resolve(__dirname, 'login.html')
+        login: resolve(__dirname, 'login.html'),
+        register: resolve(__dirname, 'register.html')
       }
     }
   }
